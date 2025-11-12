@@ -19,6 +19,7 @@ from .base import (
 from .openai_client import OpenAIClient
 from .anthropic_client import AnthropicClient
 from .local_llm_client import LocalLLMClient
+from .factory import AIClientFactory, create_ai_client
 
 __all__ = [
     "BaseAIClient",
@@ -30,5 +31,7 @@ __all__ = [
     "AITimeoutError",
     "OpenAIClient",
     "AnthropicClient",
-    "LocalLLMClient"
+    "LocalLLMClient",
+    "AIClientFactory",
+    "create_ai_client"
 ]

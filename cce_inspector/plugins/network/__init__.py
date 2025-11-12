@@ -11,5 +11,13 @@ Supports CCE compliance checking for:
 - HP Comware
 """
 
+from .pipeline import NetworkCCEPipeline, PipelineResult, run_network_assessment
+
 __plugin_name__ = "network"
 __asset_types__ = ["router", "switch", "firewall", "load_balancer"]
+
+__all__ = [
+    "NetworkCCEPipeline",
+    "PipelineResult",
+    "run_network_assessment"
+]
