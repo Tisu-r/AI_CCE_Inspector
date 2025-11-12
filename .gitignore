@@ -5,6 +5,9 @@
 network_cce_checker/config/cce_baseline.json
 network_cce_checker/config/device_profiles.json
 
+# Company internal documents
+PROJECT_PROPOSAL.md
+
 # Sample configuration files (may contain sensitive information)
 network_cce_checker/data/sample_configs/*.cfg
 !network_cce_checker/data/sample_configs/.gitkeep
