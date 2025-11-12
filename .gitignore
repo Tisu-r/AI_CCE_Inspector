@@ -2,15 +2,22 @@
 # The PDF guideline and derived baseline JSON are excluded
 # Users must obtain these materials directly from KISA
 .doc/
-network_cce_checker/config/cce_baseline.json
-network_cce_checker/config/device_profiles.json
+
+# Old structure (legacy)
+network_cce_checker/
+
+# New structure - CCE baseline files (KISA materials)
+cce_inspector/plugins/*/config/cce_baseline.json
+cce_inspector/plugins/*/config/*_profiles.json
 
 # Company internal documents
 PROJECT_PROPOSAL.md
 
 # Sample configuration files (may contain sensitive information)
-network_cce_checker/data/sample_configs/*.cfg
-!network_cce_checker/data/sample_configs/.gitkeep
+cce_inspector/plugins/*/samples/*.cfg
+cce_inspector/plugins/*/samples/*.conf
+cce_inspector/plugins/*/samples/*.txt
+!cce_inspector/plugins/*/samples/.gitkeep
 
 # Python
 __pycache__/
@@ -52,8 +59,8 @@ venv.bak/
 .env
 
 # Output and cache
-network_cce_checker/data/outputs/
-network_cce_checker/data/cache/
+cce_inspector/outputs/
+cce_inspector/cache/
 *.log
 
 # Test coverage
