@@ -1,13 +1,8 @@
 # Network CCE Inspector
 
-[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 
 AI-powered network device configuration compliance checker based on CCE (Common Configuration Enumeration) standards.
-
-> **이 프로그램은 크리에이티브 커먼즈 저작자표시-비영리-동일조건변경허락 4.0 국제 라이선스에 따라 이용할 수 있습니다.**
->
-> **This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.**
 
 ## Features
 
@@ -248,44 +243,6 @@ This project is developed for public benefit. Contributions are welcome!
 3. Commit your changes
 4. Push to the branch
 5. Create a Pull Request
-
-## License
-
-### 라이선스 (한국어)
-
-이 프로그램은 **크리에이티브 커먼즈 저작자표시-비영리-동일조건변경허락 4.0 국제 라이선스**(CC BY-NC-SA 4.0)에 따라 이용할 수 있습니다.
-
-**허용 사항:**
-- ✅ 학습 및 교육 목적의 사용
-- ✅ 개인적, 비상업적 용도로 자유롭게 사용
-- ✅ 코드 수정 및 재배포 (동일 라이선스 적용 시)
-- ✅ 보안 연구 및 분석
-
-**금지 사항:**
-- ❌ 상업적 이용 (컨설팅, 유료 서비스 등)
-- ❌ 원저작자 표시 없이 사용
-- ❌ 다른 라이선스로 재배포
-
-자세한 내용은 [LICENSE](../LICENSE) 파일 또는 https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko 를 참조하세요.
-
----
-
-### License (English)
-
-This work is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License** (CC BY-NC-SA 4.0).
-
-**You are free to:**
-- ✅ Use for learning and educational purposes
-- ✅ Use for personal, non-commercial purposes
-- ✅ Modify and redistribute (under the same license)
-- ✅ Use for security research and analysis
-
-**You are NOT allowed to:**
-- ❌ Use for commercial purposes (consulting, paid services, etc.)
-- ❌ Use without proper attribution
-- ❌ Redistribute under a different license
-
-For full details, see the [LICENSE](../LICENSE) file or visit https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 ## Disclaimer
 
