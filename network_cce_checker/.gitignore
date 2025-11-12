@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+
+# Output and cache
+data/outputs/
+data/cache/
+*.log
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sample configs (may contain sensitive info)
+data/sample_configs/*.cfg
+data/sample_configs/*.txt
+!data/sample_configs/.gitkeep
+
+# KISA CCE source materials (copyright considerations)
+# The PDF guideline and derived baseline JSON are excluded
+# Users must obtain these materials directly from KISA
+.doc/
+config/cce_baseline.json
+config/device_profiles.json

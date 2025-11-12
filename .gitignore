@@ -1,0 +1,66 @@
+# KISA CCE source materials (copyright considerations)
+# The PDF guideline and derived baseline JSON are excluded
+# Users must obtain these materials directly from KISA
+.doc/
+network_cce_checker/config/cce_baseline.json
+network_cce_checker/config/device_profiles.json
+
+# Sample configuration files (may contain sensitive information)
+network_cce_checker/data/sample_configs/*.cfg
+!network_cce_checker/data/sample_configs/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+
+# Output and cache
+network_cce_checker/data/outputs/
+network_cce_checker/data/cache/
+*.log
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code (optional - remove if you want to share Claude settings)
+.claude/
