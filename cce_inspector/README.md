@@ -181,7 +181,11 @@ Contributions are welcome! Please:
 1. **Removed intermediate parsing stage** - Stage 3 (Configuration Parsing) eliminated
 2. **Direct analysis approach** - Stage 3 now directly analyzes original config
 3. **Improved stability** - Removed unreliable intermediate AI parsing step
-4. **Token optimization** - Simplified pipeline reduces complexity
+4. **Token optimization**
+   - Simplified pipeline reduces complexity
+   - Max tokens increased to 16384 for comprehensive assessments
+   - Output format optimized: concise evaluation fields (1-2 sentences)
+   - Example templates updated for all status types (PASS/FAIL/NOT_CONFIGURED)
 
 ### 📋 TODO: JSON Repair Utility
 **Planned Feature:** AI-free JSON post-processor to handle malformed AI responses
@@ -202,7 +206,8 @@ debug/responses/stage4_response_{hostname}.txt # Debug logs
 
 ### ⚙️ Tested Configuration
 - AI Provider: Anthropic Claude (claude-sonnet-4-5-20250929)
-- Max Tokens: 8192
+- Max Tokens: 16384 (increased for large vulnerability assessments)
+- Output Optimization: Concise evaluation fields (1-2 sentences max)
 - Test Files: Cisco IOS vulnerable/secure configs
 
 ## Roadmap
