@@ -26,7 +26,7 @@ class AssetInfo:
         hostname: Device hostname
         device_type: Type of device (e.g., 'router', 'switch', 'firewall')
         device_role: Device role (e.g., 'core', 'edge', 'access')
-        confidence: Confidence score (0.0 to 1.0)
+        confidence: Confidence score (0.0 to 1.0) or string ('high', 'medium', 'low')
     """
     vendor: str
     os_type: str
@@ -34,7 +34,7 @@ class AssetInfo:
     hostname: str
     device_type: str
     device_role: str
-    confidence: float
+    confidence: float | str  # Can be numeric (0-1) or string ('high'/'medium'/'low')
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'AssetInfo':
@@ -155,9 +155,15 @@ class AssetIdentificationStage:
             # Convert to AssetInfo object
             asset_info = AssetInfo.from_dict(validated_data)
 
+            # Format confidence for display
+            if isinstance(asset_info.confidence, (int, float)):
+                conf_str = f"{asset_info.confidence:.2%}"
+            else:
+                conf_str = asset_info.confidence
+
             self.logger.info(
                 f"✓ Asset identified: {asset_info.vendor} {asset_info.os_type} "
-                f"({asset_info.device_type}) - Confidence: {asset_info.confidence:.2%}"
+                f"({asset_info.device_type}) - Confidence: {conf_str}"
             )
 
             return asset_info

@@ -141,6 +141,7 @@ class CCEConfig(BaseSettings):
         description="Active plugin for asset type"
     )
 
+
     @field_validator("openai_api_key", "anthropic_api_key")
     @classmethod
     def validate_api_key(cls, v: Optional[str], info) -> Optional[str]:

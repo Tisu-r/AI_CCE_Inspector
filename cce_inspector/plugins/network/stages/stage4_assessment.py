@@ -1,8 +1,11 @@
 """
-Stage 4: Vulnerability Assessment
+Stage 3: Vulnerability Assessment
 
-Evaluates parsed configuration against CCE criteria to determine
+Evaluates original configuration against CCE criteria to determine
 Pass/Fail status and provide remediation recommendations.
+
+Note: This stage directly analyzes the original configuration without
+intermediate parsing steps for improved accuracy and stability.
 """
 
 from pathlib import Path
@@ -15,7 +18,6 @@ from cce_inspector.core.utils import FileHandler, JSONParser, get_logger
 
 from .stage1_asset import AssetInfo
 from .stage2_criteria import CriteriaMappingResult
-from .stage3_parsing import ConfigParsingResult
 
 
 @dataclass
@@ -197,16 +199,18 @@ class VulnerabilityAssessmentStage:
     def _build_prompt(
         self,
         asset_info: AssetInfo,
-        parsing_result: ConfigParsingResult,
-        cce_baseline: List[Dict[str, Any]]
+        cce_baseline: List[Dict[str, Any]],
+        criteria_result: CriteriaMappingResult,
+        original_config: str
     ) -> str:
         """
         Build prompt for vulnerability assessment.
 
         Args:
             asset_info: Asset identification information
-            parsing_result: Configuration parsing result
             cce_baseline: CCE baseline data
+            criteria_result: Criteria mapping result from Stage 2
+            original_config: Original device configuration
 
         Returns:
             str: Complete prompt
@@ -216,12 +220,12 @@ class VulnerabilityAssessmentStage:
         # Format asset information
         asset_json = JSONParser.pretty_print(asset_info.to_dict())
 
-        # Format parsed configuration
-        parsed_json = JSONParser.pretty_print(parsing_result.to_dict())
+        # Use applicable checks from criteria_result
+        check_ids = [check.check_id for check in criteria_result.applicable_checks]
 
         # Format CCE baseline with evaluation criteria
         checks_with_criteria = []
-        for check_id in parsing_result.parsed_config.keys():
+        for check_id in check_ids:
             check_details = self._get_check_details(check_id, cce_baseline)
             if check_details:
                 checks_with_criteria.append({
@@ -235,10 +239,11 @@ class VulnerabilityAssessmentStage:
 
         criteria_json = JSONParser.pretty_print(checks_with_criteria)
 
-        # Replace placeholders
-        prompt = template.replace("{{ASSET_INFO}}", asset_json)
-        prompt = prompt.replace("{{PARSED_CONFIG}}", parsed_json)
-        prompt = prompt.replace("{{CCE_CRITERIA}}", criteria_json)
+        # Build prompt with original configuration
+        prompt = template.replace("{device_info}", asset_json)
+        prompt = prompt.replace("{parsed_config}", "{}")  # Empty - not used
+        prompt = prompt.replace("{cce_criteria}", criteria_json)
+        prompt = prompt.replace("{original_config}", original_config)
 
         return prompt
 
@@ -246,15 +251,15 @@ class VulnerabilityAssessmentStage:
         self,
         asset_info: AssetInfo,
         criteria_result: CriteriaMappingResult,
-        parsing_result: ConfigParsingResult
+        original_config: str
     ) -> VulnerabilityAssessmentResult:
         """
-        Assess vulnerabilities based on parsed configuration.
+        Assess vulnerabilities based on original configuration.
 
         Args:
             asset_info: Asset identification information
             criteria_result: Criteria mapping result from Stage 2
-            parsing_result: Configuration parsing result from Stage 3
+            original_config: Original device configuration text
 
         Returns:
             VulnerabilityAssessmentResult: Assessment results
@@ -263,15 +268,15 @@ class VulnerabilityAssessmentStage:
             ValidationError: If AI response validation fails
             Exception: If AI request fails
         """
-        self.logger.stage_start("Vulnerability Assessment", 4)
+        self.logger.stage_start("Vulnerability Assessment", 3)
 
         try:
             # Load CCE baseline
             self.logger.info("Loading CCE baseline for assessment...")
             cce_baseline = self._load_cce_baseline()
 
-            # Build prompt
-            prompt = self._build_prompt(asset_info, parsing_result, cce_baseline)
+            # Build prompt with original configuration
+            prompt = self._build_prompt(asset_info, cce_baseline, criteria_result, original_config)
 
             # Get AI response
             self.logger.info("Performing vulnerability assessment...")
@@ -281,6 +286,17 @@ class VulnerabilityAssessmentStage:
             )
 
             self.logger.debug(f"AI response received ({response.tokens_used.get('total', 0)} tokens)")
+
+            # Save response for debugging
+            try:
+                from pathlib import Path
+                debug_dir = Path("debug/responses")
+                debug_dir.mkdir(parents=True, exist_ok=True)
+                debug_file = debug_dir / f"stage4_response_{asset_info.hostname}.txt"
+                debug_file.write_text(response.content, encoding='utf-8')
+                self.logger.debug(f"Saved Stage 4 response to {debug_file}")
+            except Exception as e:
+                self.logger.warning(f"Could not save debug response: {e}")
 
             # Validate and parse response
             self.logger.info("Validating assessment response...")
@@ -330,7 +346,7 @@ class VulnerabilityAssessmentStage:
 def assess_vulnerabilities(
     asset_info: AssetInfo,
     criteria_result: CriteriaMappingResult,
-    parsing_result: ConfigParsingResult,
+    original_config: str,
     ai_client: BaseAIClient,
     templates_dir: Optional[Path] = None
 ) -> VulnerabilityAssessmentResult:
@@ -340,7 +356,7 @@ def assess_vulnerabilities(
     Args:
         asset_info: Asset identification information
         criteria_result: Criteria mapping result
-        parsing_result: Configuration parsing result
+        original_config: Original device configuration text
         ai_client: AI client instance
         templates_dir: Optional custom templates directory
 
@@ -348,4 +364,4 @@ def assess_vulnerabilities(
         VulnerabilityAssessmentResult: Assessment result
     """
     stage = VulnerabilityAssessmentStage(ai_client, templates_dir=templates_dir)
-    return stage.assess(asset_info, criteria_result, parsing_result)
+    return stage.assess(asset_info, criteria_result, original_config)

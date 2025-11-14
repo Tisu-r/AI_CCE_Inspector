@@ -87,10 +87,18 @@ class ResponseValidator:
             if field not in data:
                 raise ValidationError(f"Missing required field: {field}")
 
-        # Validate confidence is between 0 and 1
+        # Validate confidence (can be number 0-1 or string high/medium/low)
         confidence = data.get("confidence")
-        if not isinstance(confidence, (int, float)) or not (0 <= confidence <= 1):
-            raise ValidationError("Confidence must be a number between 0 and 1")
+        if isinstance(confidence, str):
+            # Accept string values: high, medium, low
+            if confidence.lower() not in ["high", "medium", "low"]:
+                raise ValidationError("Confidence string must be 'high', 'medium', or 'low'")
+        elif isinstance(confidence, (int, float)):
+            # Accept numeric values 0-1
+            if not (0 <= confidence <= 1):
+                raise ValidationError("Confidence number must be between 0 and 1")
+        else:
+            raise ValidationError("Confidence must be a number (0-1) or string (high/medium/low)")
 
         # Validate string fields are not empty
         string_fields = ["vendor", "os_type", "device_type", "device_role"]
@@ -224,13 +232,26 @@ class ResponseValidator:
         if "assessment_results" not in data:
             raise ValidationError("Missing required field: assessment_results")
 
-        if not isinstance(data["assessment_results"], dict):
-            raise ValidationError("assessment_results must be an object")
+        assessment_results = data["assessment_results"]
 
-        valid_statuses = ["pass", "fail", "manual_review"]
+        # Accept both dict (old format) and list (new format from Claude)
+        if isinstance(assessment_results, list):
+            # Convert list to dict keyed by check_id
+            results_dict = {}
+            for result in assessment_results:
+                if not isinstance(result, dict):
+                    raise ValidationError("Each assessment result must be an object")
+                if "check_id" not in result:
+                    raise ValidationError("Each assessment result must have check_id")
+                results_dict[result["check_id"]] = result
+            assessment_results = results_dict
+        elif not isinstance(assessment_results, dict):
+            raise ValidationError("assessment_results must be an object or array")
+
+        valid_statuses = ["pass", "fail", "manual_review", "not_configured"]  # Added not_configured
 
         # Validate each assessment result
-        for check_id, result in data["assessment_results"].items():
+        for check_id, result in assessment_results.items():
             if not isinstance(result, dict):
                 raise ValidationError(f"Check {check_id} result must be an object")
 
@@ -239,12 +260,15 @@ class ResponseValidator:
                 if field not in result:
                     raise ValidationError(f"Check {check_id} missing field: {field}")
 
-            # Validate status
-            if result["status"] not in valid_statuses:
+            # Validate status (case-insensitive)
+            status = result["status"].lower() if isinstance(result["status"], str) else result["status"]
+            if status not in valid_statuses:
                 raise ValidationError(
                     f"Check {check_id} invalid status: {result['status']}. "
                     f"Must be one of: {', '.join(valid_statuses)}"
                 )
+            # Normalize to lowercase
+            result["status"] = status
 
             # Validate score
             score = result["score"]
@@ -254,6 +278,9 @@ class ResponseValidator:
             # Validate remediation_commands is array
             if not isinstance(result["remediation_commands"], list):
                 raise ValidationError(f"Check {check_id} remediation_commands must be an array")
+
+        # Return normalized dict format
+        data["assessment_results"] = assessment_results
 
     @staticmethod
     def validate_stage(stage: Stage, response_text: str) -> Dict[str, Any]:

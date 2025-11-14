@@ -1,0 +1,12 @@
+```json
+{
+  "vendor": "cisco",
+  "os_type": "ios",
+  "os_version": "unknown",
+  "hostname": "unknown",
+  "device_type": "unknown",
+  "device_role": "other",
+  "confidence": "low",
+  "detection_notes": "No configuration text was provided in the input. Unable to analyze device characteristics."
+}
+```

@@ -153,7 +153,11 @@ class FileHandler:
             Path(__file__).parent.parent.parent /
             "plugins" / plugin_name / "config" / baseline_file
         )
-        return FileHandler.read_json(baseline_path)
+        data = FileHandler.read_json(baseline_path)
+        # Extract checks array from the JSON structure
+        if isinstance(data, dict) and 'checks' in data:
+            return data['checks']
+        return data
 
     @staticmethod
     def load_device_profiles(plugin_name: str, profiles_file: str = "device_profiles.json") -> Dict:

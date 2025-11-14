@@ -1,0 +1,806 @@
+{
+  "timestamp": "2025-11-14T21:25:57.449588",
+  "execution_time_seconds": 135.73938369750977,
+  "asset_info": {
+    "vendor": "cisco",
+    "os_type": "ios",
+    "os_version": "unknown",
+    "hostname": "unknown",
+    "device_type": "unknown",
+    "device_role": "other",
+    "confidence": "low"
+  },
+  "criteria_mapping": {
+    "applicable_checks": [
+      {
+        "check_id": "N-01",
+        "reason": "Universal requirement for all network devices to enforce strong password policies"
+      },
+      {
+        "check_id": "N-02",
+        "reason": "Essential protection against brute-force attacks on all device types"
+      },
+      {
+        "check_id": "N-03",
+        "reason": "Role-based access control applicable to all network devices"
+      },
+      {
+        "check_id": "N-04",
+        "reason": "Critical for securing remote management access on all devices"
+      },
+      {
+        "check_id": "N-05",
+        "reason": "Physical console access security required for all devices"
+      },
+      {
+        "check_id": "N-06",
+        "reason": "Privileged EXEC mode protection applicable to all devices"
+      },
+      {
+        "check_id": "N-07",
+        "reason": "Audit logging is mandatory for all network devices"
+      },
+      {
+        "check_id": "N-08",
+        "reason": "Ensures adequate log retention on all devices"
+      },
+      {
+        "check_id": "N-09",
+        "reason": "Centralized logging required for all network devices"
+      },
+      {
+        "check_id": "N-10",
+        "reason": "Accurate time correlation needed for all device logs"
+      },
+      {
+        "check_id": "N-11",
+        "reason": "Time synchronization critical for all network devices"
+      },
+      {
+        "check_id": "N-12",
+        "reason": "Prevents time manipulation attacks on all devices"
+      },
+      {
+        "check_id": "N-13",
+        "reason": "SNMP security applicable to all managed devices"
+      },
+      {
+        "check_id": "N-14",
+        "reason": "Restricts SNMP access on all network devices"
+      },
+      {
+        "check_id": "N-15",
+        "reason": "Legal notice banners required for all devices"
+      },
+      {
+        "check_id": "N-17",
+        "reason": "Attack surface reduction applicable to all devices"
+      },
+      {
+        "check_id": "N-18",
+        "reason": "Web management interface security for all devices"
+      },
+      {
+        "check_id": "N-19",
+        "reason": "Secure remote access required for all devices"
+      },
+      {
+        "check_id": "N-20",
+        "reason": "Insecure protocol must be disabled on all devices"
+      },
+      {
+        "check_id": "N-21",
+        "reason": "SSHv2 required for secure management on all devices"
+      },
+      {
+        "check_id": "N-22",
+        "reason": "Idle session timeout applicable to all devices"
+      },
+      {
+        "check_id": "N-23",
+        "reason": "Detects dead sessions on all network devices"
+      },
+      {
+        "check_id": "N-24",
+        "reason": "Centralized authentication applicable to all devices"
+      },
+      {
+        "check_id": "N-25",
+        "reason": "Fallback authentication required on all devices"
+      },
+      {
+        "check_id": "N-26",
+        "reason": "Enterprise authentication for all managed devices"
+      },
+      {
+        "check_id": "N-27",
+        "reason": "Authentication enforcement on all access lines"
+      },
+      {
+        "check_id": "N-28",
+        "reason": "Configuration audit trail required for all devices"
+      },
+      {
+        "check_id": "N-29",
+        "reason": "Configuration backup applicable to all devices"
+      },
+      {
+        "check_id": "N-30",
+        "reason": "Control plane security applicable to all routing/switching devices"
+      },
+      {
+        "check_id": "N-31",
+        "reason": "Management interface isolation for all devices"
+      },
+      {
+        "check_id": "N-32",
+        "reason": "Documentation requirement for all device interfaces"
+      },
+      {
+        "check_id": "N-38",
+        "reason": "Password encryption required in configuration on all devices"
+      }
+    ],
+    "excluded_checks": [
+      {
+        "check_id": "N-16",
+        "reason": "Specific implementation details not provided - requires device type and role context"
+      },
+      {
+        "check_id": "N-33",
+        "reason": "Requires knowledge of device type - only applicable to switches with switchport capability"
+      },
+      {
+        "check_id": "N-34",
+        "reason": "Layer 2 security feature - only applicable to switches, not routers or firewalls"
+      },
+      {
+        "check_id": "N-35",
+        "reason": "Layer 2 security feature - only applicable to switches with VLAN capability"
+      },
+      {
+        "check_id": "N-36",
+        "reason": "Layer 2 security feature - only applicable to switches, requires DHCP snooping"
+      },
+      {
+        "check_id": "N-37",
+        "reason": "Layer 2 broadcast control - only applicable to switches, not routers or firewalls"
+      }
+    ]
+  },
+  "vulnerability_assessment": {
+    "assessment_results": {
+      "N-01": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "security passwords min-length 10"
+          ],
+          "evaluation": "Password minimum length is set to 10 characters, exceeding the requirement of >= 9. All user accounts use encrypted passwords (type 5).",
+          "criteria_met": [
+            "Minimum password length >= 9 (configured: 10)",
+            "Encrypted passwords used (type 5 MD5 hashing)",
+            "Password complexity policy enforced"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-02": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0"
+          ],
+          "evaluation": "Enable secret is properly configured with MD5 encryption (type 5). No plaintext enable password is present.",
+          "criteria_met": [
+            "Enable secret configured with type 5 (MD5) encryption",
+            "No plaintext enable password (type 0) present"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-03": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "username admin privilege 15 secret 5 $1$zGME$IhW0JW0rqGxW3P8fLJx9b.",
+            "username operator privilege 7 secret 5 $1$aB3d$XyZ123ABCdef456GHIjk7.",
+            "username monitor privilege 5 secret 5 $1$cD4e$PqR789MNOstu012VWXyz3."
+          ],
+          "evaluation": "Privilege separation is properly implemented with only 1 privilege 15 account (admin), and operational accounts using lower privilege levels (7 and 5). This follows the principle of least privilege.",
+          "criteria_met": [
+            "Limited number of privilege 15 accounts (1 account)",
+            "Regular users have privilege < 15",
+            "Custom privilege levels defined for specific roles"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-04": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "line vty 0 4",
+            "access-class 10 in",
+            "access-list 10 permit 10.1.0.0 0.0.255.255",
+            "access-list 10 deny any log"
+          ],
+          "evaluation": "VTY lines are properly protected with access-class 10, which permits only the management network (10.1.0.0/16) and explicitly denies all other sources with logging.",
+          "criteria_met": [
+            "VTY lines have access-class configured",
+            "ACL permits only specific management network",
+            "ACL explicitly denies 'any' with logging"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-05": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "line con 0",
+            "exec-timeout 10 0",
+            "line vty 0 4",
+            "exec-timeout 10 0"
+          ],
+          "evaluation": "Session timeout is configured to 10 minutes on both console and VTY lines, meeting the recommended timeout value of <= 60 minutes.",
+          "criteria_met": [
+            "exec-timeout configured on console (10 minutes)",
+            "exec-timeout configured on VTY (10 minutes)",
+            "Timeout value <= 60 minutes (recommended: 10 minutes)"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-06": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "version 15.2"
+          ],
+          "evaluation": "IOS version 15.2 is identified. This is a stable release version. However, specific sub-version and security patch level should be verified against Cisco security advisories to ensure no critical CVEs affect this version.",
+          "criteria_met": [
+            "IOS version is a RELEASE version (15.2)",
+            "Version format indicates stable production code"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "Verify the specific sub-version (15.2.x) against Cisco Security Advisories to ensure no critical vulnerabilities exist. Consider upgrading to the latest recommended release in the 15.2 train or newer if security advisories recommend it.",
+        "remediation_commands": [
+          "! Check current exact version:",
+          "show version | include IOS",
+          "! Verify against Cisco Security Advisories",
+          "! If update needed:",
+          "copy tftp://server/ios-image.bin flash:",
+          "boot system flash:ios-image.bin",
+          "reload"
+        ]
+      },
+      "N-07": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "logging on",
+            "logging buffered 65536 informational",
+            "logging console warnings",
+            "logging monitor informational"
+          ],
+          "evaluation": "Logging is properly enabled with multiple destinations configured including buffered, console, and monitor logging with appropriate severity levels.",
+          "criteria_met": [
+            "logging on is configured",
+            "Multiple logging destinations configured (buffered, console, monitor)"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-08": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "logging host 10.1.1.100",
+            "logging host 10.1.1.101",
+            "logging trap informational"
+          ],
+          "evaluation": "Two remote syslog servers are configured (10.1.1.100 and 10.1.1.101) with informational level logging, providing redundancy and centralized log management.",
+          "criteria_met": [
+            "Multiple logging hosts configured (2 servers)",
+            "Logging trap level set to informational",
+            "Redundant syslog servers for high availability"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-09": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "logging buffered 65536 informational"
+          ],
+          "evaluation": "Logging buffer size is set to 65536 bytes (64KB), which exceeds the minimum requirement of 32768 bytes (32KB), providing adequate buffer space for log retention.",
+          "criteria_met": [
+            "Logging buffered size >= 32768 bytes (configured: 65536 bytes)"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-10": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "logging buffered 65536 informational",
+            "logging console warnings",
+            "logging monitor informational",
+            "logging trap informational"
+          ],
+          "evaluation": "Logging levels are appropriately configured: trap/buffered/monitor at informational (level 6) for detailed logging, and console at warnings (level 4) to reduce console noise while capturing important events.",
+          "criteria_met": [
+            "Logging trap level is informational (6)",
+            "Console logging level is warnings (4)",
+            "Sufficient detail for security event reconstruction"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-11": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no snmp-server community public",
+            "no snmp-server community private",
+            "snmp-server community Mgmt$3cur3 RO 20"
+          ],
+          "evaluation": "Default SNMP community strings 'public' and 'private' are explicitly disabled. A complex community string 'Mgmt$3cur3' (11 characters with special characters) is configured with ACL protection.",
+          "criteria_met": [
+            "No 'public' or 'private' community strings",
+            "Community string length >= 8 characters (11 characters)",
+            "Complex characters used in community string",
+            "ACL applied to community string (ACL 20)"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-12": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "snmp-server community Mgmt$3cur3 RO 20",
+            "access-list 20 permit host 10.1.1.100",
+            "access-list 20 permit host 10.1.1.101",
+            "access-list 20 deny any log"
+          ],
+          "evaluation": "SNMP community string has ACL 20 configured, which permits only two specific management servers (10.1.1.100 and 10.1.1.101) and explicitly denies all other sources with logging.",
+          "criteria_met": [
+            "SNMP community has ACL configured (ACL 20)",
+            "ACL permits only specific management IPs (2 hosts)",
+            "No 'permit any' in SNMP ACL",
+            "Explicit deny with logging"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-13": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "snmp-server group SNMPV3-RO v3 priv",
+            "snmp-server group SNMPV3-RW v3 priv",
+            "snmp-server user snmpadmin SNMPV3-RO v3 auth sha $ecur3P@ssw0rd priv aes 128 $ecur3Pr1v@t3",
+            "no snmp-server community public",
+            "no snmp-server community private"
+          ],
+          "evaluation": "SNMPv3 is properly configured with both authentication (SHA) and privacy (AES-128). Default SNMPv1/v2c community strings are disabled. SNMPv2c community string present has strict ACL restrictions.",
+          "criteria_met": [
+            "SNMPv3 configured with authentication (SHA)",
+            "SNMPv3 configured with privacy (AES-128)",
+            "No default SNMPv1 configurations",
+            "SNMPv2c has strict ACL and complex community string"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant. Consider removing SNMPv2c community string if SNMPv3 is fully supported by all management systems.",
+        "remediation_commands": []
+      },
+      "N-14": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "! no tftp-server commands (comment indicates no TFTP configured)"
+          ],
+          "evaluation": "No TFTP server configuration is present in the running configuration. TFTP service is not enabled.",
+          "criteria_met": [
+            "No tftp-server configured",
+            "TFTP service disabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-15": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no ip http server",
+            "no ip http secure-server",
+            "no service finger",
+            "no service tcp-small-servers",
+            "no service udp-small-servers",
+            "no service pad"
+          ],
+          "evaluation": "All unnecessary legacy services are explicitly disabled including HTTP/HTTPS servers, finger, TCP/UDP small servers, and PAD service.",
+          "criteria_met": [
+            "HTTP server disabled",
+            "HTTPS server disabled",
+            "Finger service disabled",
+            "TCP small servers disabled",
+            "UDP small servers disabled",
+            "PAD service disabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-17": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "interface GigabitEthernet0/2",
+            "description Unused Interface",
+            "shutdown",
+            "no ip address"
+          ],
+          "evaluation": "Unused interface GigabitEthernet0/2 is properly shutdown with a clear description indicating it is unused. No IP address is configured.",
+          "criteria_met": [
+            "Unused interface in shutdown state",
+            "Interface clearly labeled with description"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-18": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "ntp authenticate",
+            "ntp authentication-key 1 md5 0835424B1D1613181F 7",
+            "ntp trusted-key 1",
+            "ntp server 129.6.15.28 key 1",
+            "ntp server 132.163.96.1 key 1"
+          ],
+          "evaluation": "NTP authentication is properly configured with MD5 authentication key, trusted key defined, and both NTP servers configured to use authentication key 1.",
+          "criteria_met": [
+            "ntp authenticate enabled",
+            "Authentication key defined (key 1 with MD5)",
+            "Trusted key configured",
+            "NTP servers use authentication key"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-19": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "service tcp-keepalives-in",
+            "service tcp-keepalives-out"
+          ],
+          "evaluation": "TCP keepalives are enabled for both inbound and outbound connections, helping to detect and terminate dead TCP sessions.",
+          "criteria_met": [
+            "tcp-keepalives-in enabled",
+            "tcp-keepalives-out enabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-20": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no service finger"
+          ],
+          "evaluation": "Finger service is explicitly disabled, preventing information disclosure about users logged into the device.",
+          "criteria_met": [
+            "Finger service disabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-21": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no ip http server",
+            "no ip http secure-server"
+          ],
+          "evaluation": "Both HTTP and HTTPS servers are disabled, eliminating web-based attack vectors. Management is performed via SSH as indicated by VTY transport input ssh configuration.",
+          "criteria_met": [
+            "HTTP server disabled",
+            "HTTPS server disabled",
+            "SSH used for management instead"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-22": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no ip source-route"
+          ],
+          "evaluation": "IP source routing is globally disabled, preventing attackers from specifying routing paths and bypassing security controls.",
+          "criteria_met": [
+            "IP source routing disabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-23": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "interface GigabitEthernet0/0",
+            "no ip directed-broadcast"
+          ],
+          "evaluation": "Directed broadcast is disabled on external interface GigabitEthernet0/0, preventing the device from being used as an amplifier in Smurf attacks.",
+          "criteria_met": [
+            "Directed-broadcast disabled on external interface"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-24": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "interface GigabitEthernet0/0",
+            "no ip proxy-arp",
+            "interface GigabitEthernet0/1",
+            "no ip proxy-arp"
+          ],
+          "evaluation": "Proxy ARP is disabled on all active interfaces, preventing potential man-in-the-middle attacks and reducing unnecessary ARP traffic.",
+          "criteria_met": [
+            "Proxy ARP disabled on external interface (Gi0/0)",
+            "Proxy ARP disabled on internal interface (Gi0/1)"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-25": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "interface GigabitEthernet0/0",
+            "no ip redirects",
+            "interface GigabitEthernet0/1",
+            "no ip redirects"
+          ],
+          "evaluation": "ICMP redirects are disabled on all active interfaces, preventing attackers from redirecting traffic through malicious routes.",
+          "criteria_met": [
+            "ICMP redirects disabled on all interfaces"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-26": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "interface GigabitEthernet0/0",
+            "no ip unreachables",
+            "interface GigabitEthernet0/1",
+            "no ip unreachables"
+          ],
+          "evaluation": "ICMP unreachables are disabled on all active interfaces, preventing information disclosure and potential DoS attacks using ICMP unreachable messages.",
+          "criteria_met": [
+            "ICMP unreachables disabled on external interface",
+            "ICMP unreachables disabled on internal interface"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant. Note that this may impact troubleshooting; consider rate-limiting instead if operational issues arise.",
+        "remediation_commands": []
+      },
+      "N-27": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "interface GigabitEthernet0/0",
+            "no ip mask-reply"
+          ],
+          "evaluation": "ICMP mask reply is disabled on the external interface, preventing network reconnaissance through subnet mask disclosure.",
+          "criteria_met": [
+            "ICMP mask reply disabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-28": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no ip identd"
+          ],
+          "evaluation": "Identd service (RFC 1413) is disabled, preventing information disclosure about TCP connections and user identification.",
+          "criteria_met": [
+            "Identd service disabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-29": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no ip domain lookup",
+            "ip domain name secure.local"
+          ],
+          "evaluation": "Domain lookup is disabled, preventing delays from DNS resolution attempts on mistyped commands. A local domain name is configured for internal use.",
+          "criteria_met": [
+            "Domain lookup disabled",
+            "Local domain name configured for internal use"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-30": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no service pad"
+          ],
+          "evaluation": "PAD (Packet Assembler/Disassembler) service for X.25 protocol is disabled, eliminating an obsolete and potentially vulnerable service.",
+          "criteria_met": [
+            "PAD service disabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-31": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no cdp run",
+            "interface GigabitEthernet0/0",
+            "no cdp enable"
+          ],
+          "evaluation": "CDP is globally disabled and also explicitly disabled on the external interface, preventing information disclosure about device model, IOS version, and network topology.",
+          "criteria_met": [
+            "CDP globally disabled",
+            "CDP disabled on external interface"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-32": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "no ip bootp server"
+          ],
+          "evaluation": "BOOTP server is disabled, preventing the device from responding to BOOTP requests which could be exploited for network reconnaissance or DoS attacks.",
+          "criteria_met": [
+            "Bootp server disabled"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant",
+        "remediation_commands": []
+      },
+      "N-38": {
+        "status": "pass",
+        "score": 100,
+        "findings": {
+          "evidence": [
+            "No monitor session configuration found in running-config"
+          ],
+          "evaluation": "No SPAN or monitor sessions are configured, eliminating the risk of unauthorized traffic monitoring or data exfiltration through SPAN ports.",
+          "criteria_met": [
+            "No SPAN sessions configured"
+          ],
+          "criteria_failed": []
+        },
+        "recommendation": "No action required - configuration is compliant. If SPAN sessions are needed for legitimate IDS/IPS or network analysis, ensure they are documented with business justification and destination ports are physically secured.",
+        "remediation_commands": []
+      }
+    }
+  },
+  "summary": {
+    "total_checks": 32,
+    "passed": 32,
+    "failed": 0,
+    "manual_review": 0,
+    "pass_percentage": 100.0,
+    "fail_percentage": 0.0,
+    "average_score": 100.0
+  },
+  "metadata": {
+    "ai_provider": "anthropic",
+    "stage_timings": {
+      "stage1_seconds": 4.9438700675964355,
+      "stage2_seconds": 29.752293586730957,
+      "stage3_seconds": 101.04322004318237
+    }
+  }
+}

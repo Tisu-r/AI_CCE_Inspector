@@ -3,10 +3,7 @@
 # Users must obtain these materials directly from KISA
 .doc/
 
-# Old structure (legacy)
-network_cce_checker/
-
-# New structure - CCE baseline files (KISA materials)
+# CCE baseline files (KISA materials)
 cce_inspector/plugins/*/config/cce_baseline.json
 cce_inspector/plugins/*/config/*_profiles.json
 

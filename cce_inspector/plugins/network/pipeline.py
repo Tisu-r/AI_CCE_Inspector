@@ -1,7 +1,13 @@
 """
 Network CCE Assessment Pipeline
 
-Orchestrates the complete 4-stage assessment workflow for network devices.
+Orchestrates the 3-stage assessment workflow for network devices:
+- Stage 1: Asset Identification
+- Stage 2: Criteria Mapping
+- Stage 3: Vulnerability Assessment (analyzes original config directly)
+
+Note: Configuration parsing stage has been removed. Stage 3 now directly
+analyzes the original configuration for better accuracy and stability.
 """
 
 import time
@@ -17,7 +23,6 @@ from cce_inspector.core.utils import get_logger, FileHandler, configure_logger_f
 
 from .stages.stage1_asset import AssetIdentificationStage, AssetInfo
 from .stages.stage2_criteria import CriteriaMappingStage, CriteriaMappingResult
-from .stages.stage3_parsing import ConfigParsingStage, ConfigParsingResult
 from .stages.stage4_assessment import VulnerabilityAssessmentStage, VulnerabilityAssessmentResult
 
 
@@ -29,7 +34,6 @@ class PipelineResult:
     Attributes:
         asset_info: Asset identification result
         criteria_result: Criteria mapping result
-        parsing_result: Configuration parsing result
         assessment_result: Vulnerability assessment result
         execution_time: Total execution time in seconds
         timestamp: Execution timestamp
@@ -37,7 +41,6 @@ class PipelineResult:
     """
     asset_info: AssetInfo
     criteria_result: CriteriaMappingResult
-    parsing_result: ConfigParsingResult
     assessment_result: VulnerabilityAssessmentResult
     execution_time: float
     timestamp: str
@@ -50,7 +53,6 @@ class PipelineResult:
             'execution_time_seconds': self.execution_time,
             'asset_info': self.asset_info.to_dict(),
             'criteria_mapping': self.criteria_result.to_dict(),
-            'config_parsing': self.parsing_result.to_dict(),
             'vulnerability_assessment': self.assessment_result.to_dict(),
             'summary': self.assessment_result.get_summary(),
             'metadata': self.metadata
@@ -61,11 +63,10 @@ class NetworkCCEPipeline:
     """
     Complete CCE assessment pipeline for network devices.
 
-    Coordinates execution of all 4 stages:
+    Coordinates execution of 3 stages:
     1. Asset Identification
     2. Criteria Mapping
-    3. Configuration Parsing
-    4. Vulnerability Assessment
+    3. Vulnerability Assessment
     """
 
     def __init__(
@@ -92,7 +93,6 @@ class NetworkCCEPipeline:
         # Initialize stages
         self.stage1 = AssetIdentificationStage(self.ai_client)
         self.stage2 = CriteriaMappingStage(self.ai_client)
-        self.stage3 = ConfigParsingStage(self.ai_client)
         self.stage4 = VulnerabilityAssessmentStage(self.ai_client)
 
         self.logger.info("Network CCE Pipeline initialized")
@@ -136,17 +136,15 @@ class NetworkCCEPipeline:
             stage2_time = time.time() - stage2_start
             self.logger.stage_complete("Stage 2: Criteria Mapping", stage2_time)
 
-            # Stage 3: Configuration Parsing
+            # Stage 3: Vulnerability Assessment (directly analyzes original config)
             stage3_start = time.time()
-            parsing_result = self.stage3.parse_config(config_text, asset_info, criteria_result)
+            assessment_result = self.stage4.assess(
+                asset_info,
+                criteria_result,
+                original_config=config_text
+            )
             stage3_time = time.time() - stage3_start
-            self.logger.stage_complete("Stage 3: Configuration Parsing", stage3_time)
-
-            # Stage 4: Vulnerability Assessment
-            stage4_start = time.time()
-            assessment_result = self.stage4.assess(asset_info, criteria_result, parsing_result)
-            stage4_time = time.time() - stage4_start
-            self.logger.stage_complete("Stage 4: Vulnerability Assessment", stage4_time)
+            self.logger.stage_complete("Stage 3: Vulnerability Assessment", stage3_time)
 
             # Calculate total time
             execution_time = time.time() - start_time
@@ -158,8 +156,7 @@ class NetworkCCEPipeline:
                 'stage_timings': {
                     'stage1_seconds': stage1_time,
                     'stage2_seconds': stage2_time,
-                    'stage3_seconds': stage3_time,
-                    'stage4_seconds': stage4_time
+                    'stage3_seconds': stage3_time
                 }
             })
 
@@ -167,7 +164,6 @@ class NetworkCCEPipeline:
             result = PipelineResult(
                 asset_info=asset_info,
                 criteria_result=criteria_result,
-                parsing_result=parsing_result,
                 assessment_result=assessment_result,
                 execution_time=execution_time,
                 timestamp=timestamp,
