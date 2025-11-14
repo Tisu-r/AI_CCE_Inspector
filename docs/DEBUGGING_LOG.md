@@ -699,11 +699,22 @@ Key Type: Anthropic API Key
 - [x] Git history sanitized
 
 #### Future Enhancements
-1. **HTML Report Generation:** Enable visual reports
-2. **Multi-vendor Testing:** Test with Juniper, Huawei configs
-3. **Device Profile Implementation:** Better OS version detection
-4. **Batch Processing:** Multiple configs in single run
-5. **JSON Repair Utility:** Handle malformed AI responses (if needed)
+1. **JSON Repair Utility (AI-free):** Handle malformed AI responses
+   - Pure Python string processing (no AI costs)
+   - Fix unterminated strings, bracket matching, escaped quotes
+   - Automatic recovery from common JSON formatting errors
+
+2. **Excel Report Generator (AI-free):** Convert JSON results to Excel
+   - Use openpyxl/pandas/xlsxwriter (no AI costs)
+   - Summary sheet: Pass/Fail statistics, charts
+   - Detail sheet: Full check results with conditional formatting
+   - Remediation sheet: Failed checks with fix commands
+   - Support batch processing (multiple JSONs → single Excel)
+
+3. **HTML Report Generation:** Enable visual reports
+4. **Multi-vendor Testing:** Test with Juniper, Huawei configs
+5. **Device Profile Implementation:** Better OS version detection
+6. **Batch Processing:** Multiple configs in single run
 
 ### Configuration Reference
 
